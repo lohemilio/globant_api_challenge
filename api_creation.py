@@ -13,13 +13,13 @@ def create_tables():
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS departments (
             id INTEGER,
-            name TEXT
+            department TEXT
         )
         """))
         conn.execute(text("""
         CREATE TABLE IF NOT EXISTS jobs (
             id INTEGER,
-            position_name TEXT
+            job TEXT
         )
         """))
         conn.execute(text("""
@@ -27,8 +27,8 @@ def create_tables():
             id INTEGER,
             full_name TEXT,
             hire_date TEXT,
-            number1 INTEGER,
-            number2 INTEGER
+            department_id INTEGER,
+            job_id INTEGER
         )
         """))
 
@@ -39,9 +39,9 @@ create_tables()
 def upload_csv():
     files = request.files
     table_columns = {
-        'departments': ['id', 'name'],
-        'jobs': ['id', 'position_name'],
-        'employees': ['id', 'full_name', 'hire_date', 'number1', 'number2']
+        'departments': ['id', 'department'],
+        'jobs': ['id', 'job'],
+        'employees': ['id', 'full_name', 'hire_date', 'department_id', 'job_id']
     }
 
     # Conectar a la base de datos SQLite
@@ -66,9 +66,9 @@ def batch_insert():
         return jsonify({"message": "Invalid request"}), 400
 
     table_columns = {
-        'departments': ['id', 'name'],
-        'jobs': ['id', 'position_name'],
-        'employees': ['id', 'full_name', 'hire_date', 'number1', 'number2']
+        'departments': ['id', 'department'],
+        'jobs': ['id', 'job'],
+        'employees': ['id', 'full_name', 'hire_date', 'department_id', 'job_id']
     }
 
     if table_name not in table_columns:
